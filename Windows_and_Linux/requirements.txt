@@ -1,7 +1,7 @@
 darkdetect
 google-generativeai
 openai
-keyboard
 pyperclip
-pywin32
+pynput
 PySide6
+protobuf
