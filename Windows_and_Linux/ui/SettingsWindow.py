@@ -14,7 +14,9 @@ class SettingsWindow(QtWidgets.QWidget):
     """
     The settings window for the application.
     """
-    def __init__(self, app, providers_only = False):
+    close_signal = QtCore.Signal()
+
+    def __init__(self, app, providers_only=False):
         super().__init__()
         self.app = app
         self.current_provider_layout = None
@@ -255,6 +257,11 @@ class SettingsWindow(QtWidgets.QWidget):
         app.current_provider.load_config(app.config.get("providers", {}).get(provider_name, {}))
 
         app.register_hotkey()
+        self.providers_only = False  # this way we don't stop the main program
+        self.close()
 
-        self.close()
-        self.close()
+    def closeEvent(self, event):
+        # Emit the close signal
+        if self.providers_only:
+            self.close_signal.emit()
+        super().closeEvent(event)
